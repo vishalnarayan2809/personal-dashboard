@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="index.css">
+        <title>Personal Dashboard</title>
+        <!-- Google Fonts -->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="background-container"></div>
+        <main>    
+            <div class="top">
+                <div class="top-left">
+                    <p id="facts"></p>
+                    <div id="recent-pages"></div>
+                </div>
+                <div id="weather"></div>
+            </div>
+            
+            <div class="center-container">
+                <h1 id="time" class="time"></h1>
+                <p id="date"></p>
+                <p id="greeting"></p>
+            </div>
+
+            <div class="bottom">
+                <h2 id="qoute"></h2>
+                <p id="author"></p>
+                <div id="background-settings">
+                    <button id="background-settings-button" title="Customize Background">&#9881;</button>
+                </div>
+            </div>
+        </main>
+
+        <div id="background-modal" class="modal-container" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Customize Background</h2>
+                <p>Choose a category for your background images:</p>
+                <div id="background-categories">
+                    <!-- Categories will be populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <div id="link-modal" class="modal-container" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Add/Edit Quick Link</h2>
+                <form id="link-form">
+                    <input type="text" id="link-name" placeholder="Link Name (e.g., 'My Work')" required>
+                    <input type="url" id="link-url" placeholder="Full URL (e.g., 'https://www.example.com')" required>
+                    <button type="submit">Save Link</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="name-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>What's your name?</h2>
+                <form id="name-form">
+                    <input type="text" id="name-input" placeholder="Enter your name" required autocomplete="name">
+                    <button type="submit" class="glass-button">Save</button>
+                </form>
+            </div>
+        </div>
+
+                <script src="index.js" type="module"></script>
+    </body>
+</html>
