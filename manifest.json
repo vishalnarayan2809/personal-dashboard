@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Personal Dashboard",
-    "version": "1.0.0",
-    "description": "Just for practicing async JS",
+    "version": "1.0.1",
+    "description": "A beautiful, personalized browser dashboard with dynamic backgrounds, weather, and customizable widgets",
     "action": {
         "default_icon": "icon.png"
     },
@@ -10,6 +10,7 @@
         "newtab": "index.html"
     },
     "permissions": [
-        "history"
+        "geolocation",
+        "storage"
     ]
 }
