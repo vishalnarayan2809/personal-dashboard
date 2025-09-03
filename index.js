@@ -6,6 +6,7 @@ import { loadFacts } from './modules/facts.js';
 import { handleName, setupNameForm } from './modules/name.js';
 import { loadLinks, setupLinkEditor } from './modules/links.js';
 import { setupBackgroundSettings } from './modules/backgroundSettings.js';
+import { setupNote } from './modules/note.js';
 
 // Initialize the dashboard
 function init() {
@@ -26,6 +27,8 @@ function init() {
 
     setupBackgroundSettings();
     window.addEventListener('backgroundCategoryChanged', loadBackgroundImage);
+
+    setupNote();
 }
 
 init();

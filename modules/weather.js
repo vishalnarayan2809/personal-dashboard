@@ -6,20 +6,124 @@ function getWeatherIcon(weatherMain, weatherDescription) {
     const description = weatherDescription.toLowerCase();
     
     if (main.includes('clear') || main.includes('sun')) {
-        return './assets/sun.png';
+        return 'sunny';
     } else if (main.includes('cloud')) {
         if (description.includes('few') || description.includes('scattered')) {
-            return './assets/cloudy-day.png';
+            return 'partly-cloudy';
         }
-        return './assets/cloud.png';
-    } else if (main.includes('rain') || main.includes('drizzle') || main.includes('storm')) {
-        return './assets/rainy.png';
+        return 'cloudy';
+    } else if (main.includes('rain') || main.includes('drizzle')) {
+        return 'rainy';
+    } else if (main.includes('storm') || main.includes('thunder')) {
+        return 'stormy';
+    } else if (main.includes('snow')) {
+        return 'snowy';
     } else if (main.includes('wind') || main.includes('tornado')) {
-        return './assets/windy.png';
-    } else if (main.includes('snow') || main.includes('mist') || main.includes('fog')) {
-        return './assets/cloud.png';
+        return 'windy';
+    } else if (main.includes('mist') || main.includes('fog')) {
+        return 'foggy';
     } else {
-        return './assets/cloudy-day.png';
+        return 'partly-cloudy';
+    }
+}
+
+function createWeatherIcon(weatherType) {
+    switch(weatherType) {
+        case 'sunny':
+            return `
+                <div class="weather-icon sunny">
+                    <div class="sun">
+                        <div class="sun-rays"></div>
+                        <div class="sun-core"></div>
+                    </div>
+                </div>
+            `;
+        case 'partly-cloudy':
+            return `
+                <div class="weather-icon partly-cloudy">
+                    <div class="sun-small">
+                        <div class="sun-rays-small"></div>
+                        <div class="sun-core-small"></div>
+                    </div>
+                    <div class="cloud"></div>
+                </div>
+            `;
+        case 'cloudy':
+            return `
+                <div class="weather-icon cloudy">
+                    <div class="cloud"></div>
+                    <div class="cloud cloud-2"></div>
+                </div>
+            `;
+        case 'rainy':
+            return `
+                <div class="weather-icon rainy">
+                    <div class="cloud rain-cloud"></div>
+                    <div class="rain">
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                    </div>
+                </div>
+            `;
+        case 'stormy':
+            return `
+                <div class="weather-icon stormy">
+                    <div class="cloud storm-cloud"></div>
+                    <div class="lightning"></div>
+                    <div class="rain">
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                        <div class="rain-drop"></div>
+                    </div>
+                </div>
+            `;
+        case 'snowy':
+            return `
+                <div class="weather-icon snowy">
+                    <div class="cloud snow-cloud"></div>
+                    <div class="snow">
+                        <div class="snowflake">❄</div>
+                        <div class="snowflake">❅</div>
+                        <div class="snowflake">❆</div>
+                        <div class="snowflake">❄</div>
+                        <div class="snowflake">❅</div>
+                    </div>
+                </div>
+            `;
+        case 'windy':
+            return `
+                <div class="weather-icon windy">
+                    <div class="wind-lines">
+                        <div class="wind-line"></div>
+                        <div class="wind-line"></div>
+                        <div class="wind-line"></div>
+                    </div>
+                </div>
+            `;
+        case 'foggy':
+            return `
+                <div class="weather-icon foggy">
+                    <div class="fog">
+                        <div class="fog-line"></div>
+                        <div class="fog-line"></div>
+                        <div class="fog-line"></div>
+                        <div class="fog-line"></div>
+                    </div>
+                </div>
+            `;
+        default:
+            return `
+                <div class="weather-icon partly-cloudy">
+                    <div class="sun-small">
+                        <div class="sun-rays-small"></div>
+                        <div class="sun-core-small"></div>
+                    </div>
+                    <div class="cloud"></div>
+                </div>
+            `;
     }
 }
 
@@ -32,12 +136,19 @@ async function fetchWeatherData(lat, lon) {
 }
 
 function displayWeather(data) {
-    const localIcon = getWeatherIcon(data.weather[0].main, data.weather[0].description);
+    const weatherType = getWeatherIcon(data.weather[0].main, data.weather[0].description);
+    const iconHTML = createWeatherIcon(weatherType);
+    
     document.getElementById("weather").innerHTML = `
-        <img src="${localIcon}" alt="${data.weather[0].description}" />
-        <p class="weather-temp">${Math.round(data.main.temp)}º</p>
-        <p class="weather-city">${data.name}</p>
+        ${iconHTML}
+        <div class="weather-info">
+            <p class="weather-temp">${Math.round(data.main.temp)}º</p>
+            <p class="weather-city">${data.name}</p>
+        </div>
     `;
+    
+    // Add weather-specific background effects
+    document.getElementById("weather").className = `weather-container ${weatherType}`;
 }
 
 function showWeatherError() {
