@@ -1,7 +1,18 @@
 
 import config from '../config.js';
+import cacheManager from './cacheManager.js';
 
 export async function loadFacts() {
+    // Check for cached facts first
+    const cachedFacts = cacheManager.getCachedFacts();
+    if (cachedFacts && !cacheManager.isNewSession()) {
+        document.getElementById("facts").innerHTML = 
+        `<span>Fact of the day:</span>
+            ${cachedFacts}
+        `;
+        return;
+    }
+
     document.getElementById("facts").innerHTML = `
         <span>Fact of the day:</span><br>
         <div class="loading"></div>
@@ -18,16 +29,23 @@ export async function loadFacts() {
         })
 
         const data = await response.json()
+        const factText = data[0].fact;
+        
+        // Cache the fact
+        cacheManager.setCachedFacts(factText);
+        
         document.getElementById("facts").innerHTML = 
         `<span>Fact of the day:</span>
-            ${data[0].fact}
+            ${factText}
         `
     }
     catch(e){
         console.error(e)
+        const fallbackFact = "Did you know? The human brain contains approximately 86 billion neurons!";
+        cacheManager.setCachedFacts(fallbackFact);
         document.getElementById("facts").innerHTML = 
         `<span>Fact of the day:</span>
-            Did you know? The human brain contains approximately 86 billion neurons!
+            ${fallbackFact}
         `
     }
 }

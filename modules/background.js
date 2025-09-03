@@ -1,4 +1,7 @@
 
+import config from '../config.js';
+import cacheManager from './cacheManager.js';
+
 function analyzeImageAndSetTextColor(imageUrl, authorName) {
     const img = new Image();
     img.crossOrigin = "Anonymous";
@@ -34,6 +37,7 @@ function analyzeImageAndSetTextColor(imageUrl, authorName) {
 
         const avgBrightness = totalBrightness / pixelCount;
         const isLight = avgBrightness > 128;
+        document.body.classList.remove('light-text', 'dark-text');
         document.body.classList.add(isLight ? 'dark-text' : 'light-text');
 
         const screenWidth = window.innerWidth;
@@ -50,7 +54,31 @@ function analyzeImageAndSetTextColor(imageUrl, authorName) {
     };
 }
 
-import config from '../config.js';
+async function fetchMultipleImages(category, count = 10) {
+    const images = [];
+    const promises = [];
+
+    for (let i = 0; i < count; i++) {
+        promises.push(
+            fetch(`https://api.unsplash.com/photos/random?query=${category}&orientation=landscape&client_id=${config.UNSPLASH_API_KEY}`)
+                .then(res => res.json())
+                .then(data => ({
+                    url: data.urls.regular,
+                    author: data.user.name
+                }))
+                .catch(() => null)
+        );
+    }
+
+    const results = await Promise.allSettled(promises);
+    results.forEach(result => {
+        if (result.status === 'fulfilled' && result.value) {
+            images.push(result.value);
+        }
+    });
+
+    return images;
+}
 
 export async function loadBackgroundImage() {
     const backgroundLoader = document.createElement('div');
@@ -61,14 +89,44 @@ export async function loadBackgroundImage() {
     const category = localStorage.getItem('backgroundImageCategory') || 'nature';
 
     try {
-        const res = await fetch(`https://api.unsplash.com/photos/random?query=${category}&orientation=landscape&client_id=${config.UNSPLASH_API_KEY}`);
-        const data = await res.json();
-        analyzeImageAndSetTextColor(data.urls.regular, data.user.name);
+        // Check if we have cached images for current category
+        const cachedImages = cacheManager.getCachedImages();
+        
+        if (cachedImages && cachedImages.length > 0) {
+            // Use cached image rotation
+            const nextImage = cacheManager.getNextImage();
+            if (nextImage) {
+                analyzeImageAndSetTextColor(nextImage.url, nextImage.author);
+                backgroundLoader.remove();
+                return;
+            }
+        }
+
+        // If no cache or new session, fetch new images
+        if (cacheManager.isNewSession() || !cachedImages) {
+            console.log('Fetching fresh background images...');
+            const images = await fetchMultipleImages(category, 10);
+            
+            if (images.length > 0) {
+                cacheManager.setCachedImages(images, category);
+                // Use first image
+                analyzeImageAndSetTextColor(images[0].url, images[0].author);
+            } else {
+                throw new Error('No images fetched');
+            }
+        }
     } catch (err) {
+        console.error('Background loading error:', err);
         document.querySelector('.background-container').style.backgroundImage = `url(https://images.unsplash.com/photo-1560008511-11c63416e52d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMTEwMjl8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MjI4NDIxMTc&ixlib=rb-1.2.1&q=80&w=1080)`;
         document.getElementById("author").textContent = `By: Dodi Achmad`;
         document.body.classList.add('light-text');
     } finally {
         backgroundLoader.remove();
     }
+}
+
+export function refreshBackgroundCache() {
+    const category = localStorage.getItem('backgroundImageCategory') || 'nature';
+    cacheManager.clearImageCache();
+    console.log('Background cache cleared, will refresh on next load');
 }

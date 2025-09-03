@@ -1,5 +1,6 @@
 
 import config from '../config.js';
+import cacheManager from './cacheManager.js';
 
 function getWeatherIcon(weatherMain, weatherDescription) {
     const main = weatherMain.toLowerCase();
@@ -167,6 +168,13 @@ function showWeatherLoading() {
 }
 
 export function loadWeather() {
+    // Check for cached weather data first
+    const cachedWeather = cacheManager.getCachedWeather();
+    if (cachedWeather && !cacheManager.isNewSession()) {
+        displayWeather(cachedWeather);
+        return;
+    }
+
     showWeatherLoading();
     
     // Check if we have cached location data (valid for 30 minutes)
@@ -177,7 +185,10 @@ export function loadWeather() {
     if (cachedLocation && cacheTime && (Date.now() - parseInt(cacheTime)) < thirtyMinutes) {
         const location = JSON.parse(cachedLocation);
         fetchWeatherData(location.lat, location.lon)
-            .then(displayWeather)
+            .then(data => {
+                cacheManager.setCachedWeather(data);
+                displayWeather(data);
+            })
             .catch(err => {
                 console.error(err);
                 showWeatherError();
@@ -204,6 +215,7 @@ export function loadWeather() {
                 localStorage.setItem('weatherLocationTime', Date.now().toString());
                 
                 const data = await fetchWeatherData(locationData.lat, locationData.lon);
+                cacheManager.setCachedWeather(data);
                 displayWeather(data);
             } catch (err) {
                 console.error(err);
@@ -217,7 +229,10 @@ export function loadWeather() {
             if (cachedLocation) {
                 const location = JSON.parse(cachedLocation);
                 fetchWeatherData(location.lat, location.lon)
-                    .then(displayWeather)
+                    .then(data => {
+                        cacheManager.setCachedWeather(data);
+                        displayWeather(data);
+                    })
                     .catch(() => showWeatherError());
             } else {
                 showWeatherError();

@@ -1,3 +1,5 @@
+import cacheManager from './cacheManager.js';
+
 const backgroundModal = document.getElementById('background-modal');
 const backgroundSettingsButton = document.getElementById('background-settings-button');
 const categoriesContainer = document.getElementById('background-categories');
@@ -29,7 +31,11 @@ function populateCategories() {
             localStorage.setItem('backgroundImageCategory', category);
             document.querySelector('.category-button.selected').classList.remove('selected');
             button.classList.add('selected');
-            // We need to import and call loadBackgroundImage here, but we'll do that from the main script to avoid circular dependencies.
+            
+            // Clear image cache when category changes
+            cacheManager.clearImageCache();
+            
+            // Trigger background reload
             window.dispatchEvent(new Event('backgroundCategoryChanged'));
             setTimeout(closeBackgroundModal, 300); // Close modal after a short delay
         });
