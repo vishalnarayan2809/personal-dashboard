@@ -2,7 +2,6 @@
 const quickLinksContainer = document.getElementById("recent-pages");
 const modal = document.getElementById('link-modal');
 const form = document.getElementById('link-form');
-const closeButton = document.querySelector('.close-button');
 let links = [];
 let editingIndex = null;
 
@@ -98,6 +97,9 @@ export function loadLinks() {
 }
 
 export function setupLinkEditor() {
+    // Get the close button specifically from the link modal
+    const closeButton = modal.querySelector('.close-button');
+    
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = form['link-name'].value;
@@ -114,10 +116,22 @@ export function setupLinkEditor() {
         closeModal();
     });
 
-    closeButton.onclick = closeModal;
+    // Handle close button click
+    if (closeButton) {
+        closeButton.onclick = closeModal;
+    }
+    
+    // Handle clicking outside the modal
     window.onclick = (event) => {
         if (event.target == modal) {
             closeModal();
         }
     };
+    
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    });
 }

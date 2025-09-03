@@ -1,0 +1,314 @@
+/* Production-level CSS additions for enhanced UX */
+
+/* Theme system */
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --text-light: rgba(255, 255, 255, 0.9);
+  --text-dark: rgba(0, 0, 0, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] {
+  --glass-bg: rgba(0, 0, 0, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-light: rgba(255, 255, 255, 0.95);
+  --text-dark: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] {
+  --glass-bg: rgba(255, 255, 255, 0.3);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --text-light: rgba(0, 0, 0, 0.8);
+  --text-dark: rgba(0, 0, 0, 0.9);
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus management for keyboard navigation */
+.keyboard-navigation *:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  animation: slideInRight 0.3s ease-out;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.toast-success {
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+}
+
+.toast-error {
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+}
+
+.toast-warning {
+  background: rgba(245, 158, 11, 0.9);
+  color: white;
+}
+
+.toast-info {
+  background: var(--glass-bg);
+  color: var(--text-light);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.toast-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Loading skeletons */
+.skeleton-loader {
+  padding: 20px;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.skeleton-line-long {
+  width: 100%;
+}
+
+.skeleton-line-medium {
+  width: 75%;
+}
+
+.skeleton-line-short {
+  width: 50%;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.theme-button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+}
+
+.theme-button:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.theme-icon {
+  font-size: 20px;
+}
+
+/* Enhanced error states */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: center;
+  color: var(--error-color);
+}
+
+.error-icon {
+  font-size: 48px;
+  opacity: 0.6;
+}
+
+.error-message {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.error-details {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.retry-button {
+  background: var(--error-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background: #dc2626;
+}
+
+/* Performance indicators */
+.performance-indicator {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-light);
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.performance-indicator.show {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .performance-indicator {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    text-align: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(0, 0, 0, 0.3);
+  }
+  
+  [data-theme="dark"] {
+    --glass-bg: rgba(0, 0, 0, 0.95);
+    --glass-border: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .skeleton-line {
+    animation: none;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

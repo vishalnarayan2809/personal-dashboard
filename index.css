@@ -230,50 +230,129 @@ div.top {
     color: white;
 }
 
-/* Modal Styles */
+/* Modal styles */
 .modal-container {
     position: fixed;
-    z-index: 1001;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(50px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
     border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
+    max-width: 500px;
     position: relative;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
-.dark-text .modal-content {
-    background: rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(0, 0, 0, 0.2);
+.save-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.save-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .close-button {
     position: absolute;
     top: 10px;
     right: 15px;
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
 }
 
-.close-button:hover,
-.close-button:focus {
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Temperature unit toggle styles */
+#background-settings {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.settings-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#temperature-unit-toggle {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* Weather loading improvements */
+.weather-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+.loading {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 #link-form {

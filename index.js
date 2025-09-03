@@ -7,6 +7,7 @@ import { handleName, setupNameForm } from './modules/name.js';
 import { loadLinks, setupLinkEditor } from './modules/links.js';
 import { setupBackgroundSettings } from './modules/backgroundSettings.js';
 import { setupNote } from './modules/note.js';
+import { setupTemperatureUnitToggle } from './modules/temperatureUnit.js';
 import cacheManager from './modules/cacheManager.js';
 
 // Initialize the dashboard
@@ -41,6 +42,7 @@ function init() {
     // Settings and note features
     setupBackgroundSettings();
     setupNote();
+    setupTemperatureUnitToggle();
     
     // Handle background category changes
     window.addEventListener('backgroundCategoryChanged', loadBackgroundImage);

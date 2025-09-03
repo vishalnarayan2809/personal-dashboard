@@ -129,7 +129,9 @@ function createWeatherIcon(weatherType) {
 }
 
 async function fetchWeatherData(lat, lon) {
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${config.OPENWEATHER_API_KEY}`);
+    // Get temperature unit preference (default to imperial/Fahrenheit)
+    const tempUnit = localStorage.getItem('temperatureUnit') || 'imperial';
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${config.OPENWEATHER_API_KEY}`);
     if (!res.ok) {
         throw Error("Weather data not available");
     }
@@ -140,10 +142,14 @@ function displayWeather(data) {
     const weatherType = getWeatherIcon(data.weather[0].main, data.weather[0].description);
     const iconHTML = createWeatherIcon(weatherType);
     
+    // Get temperature unit for display
+    const tempUnit = localStorage.getItem('temperatureUnit') || 'imperial';
+    const unitSymbol = tempUnit === 'imperial' ? 'ºF' : 'ºC';
+    
     document.getElementById("weather").innerHTML = `
         ${iconHTML}
         <div class="weather-info">
-            <p class="weather-temp">${Math.round(data.main.temp)}º</p>
+            <p class="weather-temp">${Math.round(data.main.temp)}${unitSymbol}</p>
             <p class="weather-city">${data.name}</p>
         </div>
     `;

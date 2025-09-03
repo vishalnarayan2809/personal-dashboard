@@ -1,14 +1,62 @@
 {
-  "name": "Scrim-s0je3v",
-  "description": "https://scrimba.com/fullstack-path-c0fullstack/~0op",
+  "name": "personal-dashboard",
+  "version": "2.0.0",
+  "description": "A beautiful, fast, and feature-rich new tab dashboard extension",
+  "type": "module",
   "scripts": {
     "start": "vite",
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "bundle-analyzer": "npx vite-bundle-analyzer",
+    "zip": "node scripts/zip-extension.js",
+    "release": "npm run build && npm run zip"
   },
   "dependencies": {
-    "vite": "latest"
+    "vite": "latest",
+    "idb": "^8.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "vite-plugin-web-extension": "^4.0.0",
+    "@vitejs/plugin-legacy": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "prettier": "^3.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "c8": "^8.0.0",
+    "archiver": "^6.0.0",
+    "rollup-plugin-visualizer": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "chrome-extension",
+    "new-tab",
+    "dashboard",
+    "productivity",
+    "weather",
+    "backgrounds"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vishalnarayan2809/personal-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vishalnarayan2809/personal-dashboard/issues"
+  },
+  "homepage": "https://github.com/vishalnarayan2809/personal-dashboard#readme"
 }
