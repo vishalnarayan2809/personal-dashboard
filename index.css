@@ -1133,7 +1133,9 @@ p.weather-temp {
     padding: 1.5rem;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    font-family: "Poppins", sans-serif;
     font-weight: 300;
+    font-size: 0.9rem;
     min-height: 100px;
     cursor: pointer;
 }
@@ -1151,6 +1153,10 @@ p.weather-temp {
     margin: 0;
     white-space: pre-wrap; /* Respect line breaks */
     word-wrap: break-word;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: 1.4;
 }
 
 #note-text.placeholder {
@@ -1165,9 +1171,11 @@ p.weather-temp {
     border: none;
     color: inherit;
     font-family: "Poppins", sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 300;
     resize: none;
     padding: 0;
+    line-height: 1.4;
 }
 
 #note-input:focus {
